@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos de Material de Bacteriología</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 1rem;
+        }
+        input, select, textarea, button {
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pedidos de Material de Bacteriología</h1>
+    </header>
+    <main>
+        <h2>Formulario de Pedido</h2>
+        <form id="pedidoForm">
+            <label for="profesor">Nombre del Profesor:</label>
+            <input type="text" id="profesor" name="profesor" placeholder="Ingrese su nombre" required>
+
+            <label for="material">Material solicitado:</label>
+            <textarea id="material" name="material" placeholder="Especifique cepas, medios de cultivo, etc." required></textarea>
+
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" id="cantidad" name="cantidad" min="1" placeholder="Ingrese la cantidad" required>
+
+            <label for="fecha">Fecha de Solicitud:</label>
+            <input type="date" id="fecha" name="fecha" required>
+
+            <label for="hora">Hora de Solicitud:</label>
+            <input type="time" id="hora" name="hora" required>
+
+            <button type="button" onclick="registrarPedido()">Enviar Pedido</button>
+        </form>
+        <div id="mensaje" style="margin-top: 1rem; color: green;"></div>
+    </main>
+    <script>
+        function registrarPedido() {
+            const profesor = document.getElementById("profesor").value;
+            const material = document.getElementById("material").value;
+            const cantidad = document.getElementById("cantidad").value;
+            const fecha = document.getElementById("fecha").value;
+            const hora = document.getElementById("hora").value;
+
+            if (profesor && material && cantidad && fecha && hora) {
+                // Muestra el pedido registrado en la página (luego se conectará con un backend)
+                document.getElementById("mensaje").innerText = 
+                    `¡Pedido registrado! Profesor: ${profesor}, Material: ${material}, Cantidad: ${cantidad}, Fecha: ${fecha}, Hora: ${hora}`;
+                
+                // Aquí se podría enviar el pedido a un servidor
+                console.log({ profesor, material, cantidad, fecha, hora });
+            } else {
+                document.getElementById("mensaje").innerText = "Por favor, complete todos los campos.";
+            }
+        }
+    </script>
+</body>
+</html>

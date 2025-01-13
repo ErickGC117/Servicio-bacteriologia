@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos de Material - Bacteriología Diagnóstica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pedidos de Material - Bacteriología Diagnóstica</h1>
+    <form id="pedidoForm">
+        <label for="profesor">Nombre del Profesor:</label>
+        <input type="text" id="profesor" placeholder="Ingresa tu nombre" required>
+
+        <label for="material">Material Solicitado:</label>
+        <input type="text" id="material" placeholder="Ej. Cepas, medios de cultivo" required>
+
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" min="1" required>
+
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" required>
+
+        <label for="hora">Hora:</label>
+        <input type="time" id="hora" required>
+
+        <button type="button" onclick="registrarPedido()">Enviar Pedido</button>
+    </form>
+
+    <div id="mensaje" class="message"></div>
+
+    <script>
+        async function registrarPedido() {
+            const profesor = document.getElementById("profesor").value;
+            const material = document.getElementById("material").value;
+            const cantidad = document.getElementById("cantidad").value;
+            const fecha = document.getElementById("fecha").value;
+            const hora = document.getElementById("hora").value;
+
+            if (profesor && material && cantidad && fecha && hora) {
+                const pedido = { profesor, material, cantidad, fecha, hora };
+
+                try {
+                    const respuesta = await fetch("http://localhost:3000/api/pedidos", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(pedido),
+                    });
+                    const resultado = await respuesta.json();
+                    document.getElementById("mensaje").innerText = resultado.mensaje;
+                } catch (error) {
+                    console.error("Error al registrar el pedido:", error);
+                    document.getElementById("mensaje").innerText = "Error al conectar con el servidor.";
+                }
+            } else {
+                document.getElementById("mensaje").innerText = "Por favor, complete todos los campos.";
+            }
+        }
+    </script>
+</body>
+</html>
